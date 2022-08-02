@@ -3,38 +3,42 @@ package com.mercadolivro.service
 import com.mercadolivro.model.CustomerModel
 import com.mercadolivro.repository.CustomerRepository
 import org.springframework.stereotype.Service
+import java.lang.Exception
 
 @Service
-class CustomerService (val CustomerRepository: CustomerRepository) {
+class CustomerService(
+    val customerRepository: CustomerRepository
+) {
 
-    fun getAll(name: String?): List<CustomerModel>{
+    fun getAll(name: String?): List<CustomerModel> {
+        name?.let {
+            return customerRepository.findByNameContaining(it)
+        }
+        return customerRepository.findAll().toList()
+    }
 
-        // Caso haja o parâmetro name
-        name?.let { return CustomerRepository.findByNameContaining(it)}
-
-        // Se não houver parâmetro
-        return CustomerRepository.findAll().toList()
+    fun create(customer: CustomerModel) {
+        customerRepository.save(customer)
     }
 
     fun getCustomer(id: Int): CustomerModel {
-        return CustomerRepository.findById(id).orElseThrow()
-    }
-
-    fun create(customer: CustomerModel){
-        CustomerRepository.save(customer)
+        return customerRepository.findById(id).orElseThrow()
     }
 
     fun update(customer: CustomerModel) {
-        if (!CustomerRepository.existsById(customer.id!!)){
+        if(!customerRepository.existsById(customer.id!!)){
             throw Exception()
         }
-        CustomerRepository.save(customer)
+
+        customerRepository.save(customer)
     }
 
     fun delete(id: Int) {
-        if (!CustomerRepository.existsById(id)){
+        if(!customerRepository.existsById(id)){
             throw Exception()
         }
-        CustomerRepository.deleteById(id)
+
+        customerRepository.deleteById(id)
     }
+
 }

@@ -1,3 +1,9 @@
 package com.mercadolivro.controller.request
 
-data class PostCustomerRequest(var name: String, var email: String)
+import com.mercadolivro.model.CustomerModel
+
+data class PostCustomerRequest (
+    var name: String,
+
+    var email: String
+)

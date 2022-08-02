@@ -6,4 +6,3 @@ spring:
     url: jdbc:mysql://localhost:3306/mercadolivro?createDatabaseIfNotExist=true
     username: root
     password: 92AOzC0D&9Y3
-
